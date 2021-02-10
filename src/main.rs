@@ -16,6 +16,8 @@ use serde::{Deserialize, Serialize};
 struct Opts {
     #[clap(short, long, default_value = "http://localhost:8080/")]
     url_base: String,
+    #[clap(short, long, default_value = "8080")]
+    port: u32,
     #[clap(short, long, default_value = "default")]
     shard: String,
     #[clap(short, long)]
@@ -31,9 +33,10 @@ async fn main() -> std::io::Result<()> {
     info!("Config value - url_base: {}", opts.url_base);
     info!("Config value - shard: {}", opts.shard);
     info!("Config value - delete_on_use: {}", opts.delete_on_use);
+    info!("Config value - port: {}", opts.port);
 
     HttpServer::new(|| App::new().service(shorten).service(redirect))
-        .bind("127.0.0.1:8080")?
+        .bind(format!("127.0.0.1:{}", opts.port))?
         .run()
         .await
 }
