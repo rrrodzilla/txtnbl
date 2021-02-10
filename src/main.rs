@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clap)]
 #[clap(
-    version = "1.0",
+    version = "0.5",
     author = "Textnibble Microservices",
     about = "Simple service for creating short url redirects"
 )]
