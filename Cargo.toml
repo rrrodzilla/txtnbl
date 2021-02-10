@@ -3,9 +3,15 @@ name = "txtnbl"
 version = "0.1.0"
 authors = ["rodzilla <rodzilla@textnibble.com>"]
 edition = "2018"
+description = "A url shortening service for use by the Textnibble platform"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 actix-web = "3"
 serde = "1.0.123"
+harsh = "0.2.1"
+pickledb = "0.4.1"
+clap = "3.0.0-beta.2"
+log = "0.4.0"
+env_logger = "0.8.2"
