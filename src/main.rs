@@ -14,7 +14,7 @@ use serde::{Deserialize, Serialize};
     about = "Simple service for creating short url redirects"
 )]
 struct Opts {
-    #[clap(short, long, default_value = "http://localhost:8080/")]
+    #[clap(short, long, default_value = "http://localhost")]
     url_base: String,
     #[clap(short, long, default_value = "8080")]
     port: u32,
