@@ -18,6 +18,8 @@ struct Opts {
     url_base: String,
     #[clap(short, long, default_value = "default")]
     shard: String,
+    #[clap(short, long)]
+    delete_on_use: bool,
 }
 
 #[actix_web::main]
@@ -28,6 +30,7 @@ async fn main() -> std::io::Result<()> {
 
     info!("Config value - url_base: {}", opts.url_base);
     info!("Config value - shard: {}", opts.shard);
+    info!("Config value - delete_on_use: {}", opts.delete_on_use);
 
     HttpServer::new(|| App::new().service(shorten).service(redirect))
         .bind("127.0.0.1:8080")?
@@ -101,8 +104,10 @@ async fn redirect(web::Path(code): web::Path<String>) -> impl Responder {
     //delete this value from the store
     if response.status() == http::StatusCode::PERMANENT_REDIRECT {
         info!("REDIRECT => Found url {:?} for code {}", &url, &code);
-        info!("REDIRECT => Deleting used code {}...", &code);
-        db.rem(&code).unwrap();
+        if opts.delete_on_use {
+            info!("REDIRECT => Deleting used code {}...", &code);
+            db.rem(&code).unwrap();
+        }
     } else {
         warn!("No url found for code {:?}", &code);
     }
